@@ -1,0 +1,46 @@
+.App {}
+
+@font-face {
+  font-family: "chessline";
+  src: url("CHEQ_TT.TTF");
+  /* TTF file for CSS3 browsers */
+}
+
+.container {
+  width: 780px !important;
+}
+
+.chess-board {
+  border:  7px solid #333;
+  cursor: default;
+  padding: 6px 10px;
+  font-family: "chessline";
+  font-size: 90px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.cell {
+  z-index: 10;
+}
+
+.cell:hover {
+  background: gold;
+  z-index: 1;
+}
+
+.seperator {
+  margin-top: -50px;
+}
+
+.selected, .selected:hover {
+  background: gold !important;
+}
+
+.legalnext {
+  background: gold !important;
+}
