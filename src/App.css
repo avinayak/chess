@@ -1,4 +1,6 @@
-.App {}
+.App {
+  color: #333;
+}
 
 @font-face {
   font-family: "chessline";
@@ -6,16 +8,35 @@
   /* TTF file for CSS3 browsers */
 }
 
+@font-face {
+  font-family: "ultraminimal";
+  src: url("ultraminimal.ttf");
+  /* TTF file for CSS3 browsers */
+}
+
 .container {
   width: 780px !important;
 }
 
+.footer{
+  text-align: center;
+  margin-top: 50px;
+
+}
+
+.timer{
+    font-family: monospace;
+    padding: 0px 50px;
+    font-size: 27px;
+}
+
 .chess-board {
-  border:  7px solid #333;
+  /* border:  7px solid #333; */
   cursor: default;
-  padding: 6px 10px;
+  /* padding: 6px 10px; */
   font-family: "chessline";
-  font-size: 90px;
+  text-align: center;
+  font-size: 95px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -24,17 +45,15 @@
   user-select: none;
 }
 
-.cell {
-  z-index: 10;
-}
-
-.cell:hover {
-  background: gold;
-  z-index: 1;
-}
+.cell {}
 
 .seperator {
-  margin-top: -50px;
+  margin-top: -110px;
+}
+
+.selectable:hover {
+  background: gold;
+  cursor: pointer;
 }
 
 .selected, .selected:hover {
@@ -43,4 +62,9 @@
 
 .legalnext {
   background: gold !important;
+  cursor: pointer;
+}
+
+#root > div > div:nth-child(1) > h1 {
+  font-family: 'ultraminimal'
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Jeff Hlywa (jhlywa@gmail.com)
+ * Copyright (c) 2017, Jeff Hlywa (jhlywa@gmail.com)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
 /* minified license below  */
 
 /* @license
- * Copyright (c) 2016, Jeff Hlywa (jhlywa@gmail.com)
+ * Copyright (c) 2017, Jeff Hlywa (jhlywa@gmail.com)
  * Released under the BSD license
  * https://github.com/jhlywa/chess.js/blob/master/LICENSE
  */
@@ -172,7 +172,11 @@ var Chess = function(fen) {
     load(fen);
   }
 
-  function clear() {
+  function clear(keep_headers) {
+    if (typeof keep_headers === 'undefined') {
+      keep_headers = false;
+    }
+
     board = new Array(128);
     kings = {w: EMPTY, b: EMPTY};
     turn = WHITE;
@@ -181,7 +185,7 @@ var Chess = function(fen) {
     half_moves = 0;
     move_number = 1;
     history = [];
-    header = {};
+    if (!keep_headers) header = {};
     update_setup(generate_fen());
   }
 
@@ -189,7 +193,11 @@ var Chess = function(fen) {
     load(DEFAULT_POSITION);
   }
 
-  function load(fen) {
+  function load(fen, keep_headers) {
+    if (typeof keep_headers === 'undefined') {
+      keep_headers = false;
+    }
+
     var tokens = fen.split(/\s+/);
     var position = tokens[0];
     var square = 0;
@@ -198,7 +206,7 @@ var Chess = function(fen) {
       return false;
     }
 
-    clear();
+    clear(keep_headers);
 
     for (var i = 0; i < position.length; i++) {
       var piece = position.charAt(i);
@@ -1290,6 +1298,26 @@ var Chess = function(fen) {
       return generate_fen();
     },
 
+    board: function() {
+      var output = [],
+          row    = [];
+
+      for (var i = SQUARES.a8; i <= SQUARES.h1; i++) {
+        if (board[i] == null) {
+          row.push(null)
+        } else {
+          row.push({type: board[i].type, color: board[i].color})
+        }
+        if ((i + 1) & 0x88) {
+          output.push(row);
+          row = []
+          i += 8;
+        }
+      }
+
+      return output;
+    },
+
     pgn: function(options) {
       /* using the specification from http://www.chessclub.com/help/PGN-spec
        * example for html usage: .pgn({ max_width: 72, newline_char: "<br />" })
@@ -1448,7 +1476,7 @@ var Chess = function(fen) {
       /* load the starting position indicated by [Setup '1'] and
       * [FEN position] */
       if (headers['SetUp'] === '1') {
-          if (!(('FEN' in headers) && load(headers['FEN']))) {
+          if (!(('FEN' in headers) && load(headers['FEN'], true ))) { // second argument to load: don't clear the headers
             return false;
           }
       }
@@ -1638,4 +1666,4 @@ var Chess = function(fen) {
  * environment */
 if (typeof exports !== 'undefined') exports.Chess = Chess;
 /* export Chess object for any RequireJS compatible environment */
-//if (typeof define !== 'undefined') define( function () { return Chess;  });
+// if (typeof define !== 'undefined') define( function () { return Chess;  });
