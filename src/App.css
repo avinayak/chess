@@ -20,14 +20,16 @@
 
 .footer{
   text-align: center;
-  margin-top: 50px;
-
+position: fixed;
+    bottom: 0px;
+    width: 100%;
 }
 
 .timer{
+    /* margin: 60px 0px; */
     font-family: monospace;
-    padding: 0px 50px;
-    font-size: 27px;
+    /* padding: 0px 50px; */
+    font-size: 19px;
 }
 
 .chess-board {
@@ -65,6 +67,6 @@
   cursor: pointer;
 }
 
-#root > div > div:nth-child(1) > h1 {
+#root > div > div:nth-child(1) > div:nth-child(1) > h1 {
   font-family: 'ultraminimal'
 }

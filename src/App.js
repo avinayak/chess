@@ -6,8 +6,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Header from './Header.js';
 import Footer from './Footer.js';
-import Dialogs from './Dialogs.js'
 import { WindowResizeListener } from 'react-window-resize-listener'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
 
 const chessLight = getMuiTheme({
   palette: {
@@ -36,27 +38,36 @@ function resized(w, h) {
 
 class App extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {newGameDialogOpen:false}
-    this.setState();
-  }
+    this.state = {
+      open: false,
+    };
 
-  requestOpenNewGame(){
-      this.setState({newGameDialogOpen:true})
+  }
+  requestCloseNewGame = () => {
+    this.setState({ open: false });
+  };
+  requestOpenNewGame = () => {
+    this.setState({ open: true })
   }
 
   render() {
+    const actions = [
+      <FlatButton label="Cancel" primary={true} style={{ color: '#333' }} onClick={this.requestCloseNewGame} />,
+      <FlatButton label="OK" primary={true} style={{ color: '#333' }} onClick={this.requestCloseNewGame} />,
+    ];
+
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(chessLight)}>
         <div className="App">
-          <Header requestOpenNewGame={()=>{this.requestOpenNewGame()}} />
+          <Header requestOpenNewGame={this.requestOpenNewGame} />
           <WindowResizeListener onResize={windowSize => { resized(windowSize.windowWidth, windowSize.windowHeight) }} />
           <ChessBoard />
-
-
-
-          <Dialogs newGameDialogOpen={this.state.newGameDialogOpen}/>
+          <Dialog title="New Game" actions={actions} modal={false} open={this.state.open} onRequestClose={this.handleClose} >
+            Start a new game?
+          </Dialog>
+          <Footer/>
         </div>
       </MuiThemeProvider>
     );

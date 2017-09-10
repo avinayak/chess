@@ -7,7 +7,7 @@ class ChessBoard extends Component {
     constructor(props) {
         super(props);
         var chess = new Chess();
-        this.state = { board: chess.fen(), selectMode: false, userColor: 'b' };
+        this.state = { board: chess.fen(), selectMode: false, userColor: 'w' };
         if (this.state.userColor === 'b') {
             // make AI do the first move
             var moves = chess.moves();
