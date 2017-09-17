@@ -18,6 +18,10 @@
   width: 780px !important;
 }
 
+.label{
+  font-size: 11px;
+}
+
 .footer{
   text-align: center;
 position: fixed;

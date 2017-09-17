@@ -22,7 +22,7 @@ class Header extends Component {
                 <IconButton onClick={this.props.requestOpenNewGame}><svg style={{ 'width': '24px', 'height': '24px' }} viewBox="0 0 24 24">
                     <path fill="#000000" d="M3,3H21V21H3V3M5,5V12H12V19H19V12H12V5H5Z" fill="#333" />
                 </svg></IconButton>
-                <IconButton>
+                <IconButton  onClick={this.props.requestOpenIntelligenceDia}>
 
 
 

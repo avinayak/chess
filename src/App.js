@@ -11,7 +11,9 @@ import Footer from './Footer.js';
 import { WindowResizeListener } from 'react-window-resize-listener'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Slider from 'material-ui/Slider';
 var Chess = require('./chess.js').Chess;
+
 
 const chessLight = getMuiTheme({
   palette: {
@@ -50,6 +52,7 @@ class App extends Component {
     this.state = {
       board:chess.fen(),
       newGameDiaOpen: false,
+      intelligenceDiaOpen: false,
       intelligenceLevel:localStorage.getItem("intelligenceLevel")?localStorage.getItem("intelligenceLevel"):"10"
     };
 
@@ -60,11 +63,21 @@ class App extends Component {
   requestOpenNewGame = () => {
     this.setState({ newGameDiaOpen: true })
   }
+
+  requestCloseIntelligenceDia = () => {
+    this.setState({ intelligenceDiaOpen: false });
+  };
+  requestOpenIntelligenceDia = () => {
+    this.setState({ intelligenceDiaOpen: true })
+  }
+  onChangeIntelligenceLevel = (event,value) => {
+    localStorage.setItem("intelligenceLevel",`${value}`)
+    this.setState({intelligenceLevel:`${value}`});
+  }
   requestCreateNewGame = () => {
     var chess = new Chess();
-
     this.setState({ newGameDiaOpen: true,board:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" })
-  }
+  } 
 
   render() {
     const newGameActions = [
@@ -72,15 +85,24 @@ class App extends Component {
       <FlatButton label="OK" primary={true} style={{ color: '#333' }} onClick={this.requestCreateNewGame} />,
     ];
 
+    const intelligenceActions = [
+      <FlatButton label="Cancel" primary={true} style={{ color: '#333' }} onClick={this.requestCloseIntelligenceDia} />,
+      <FlatButton label="OK" primary={true} style={{ color: '#333' }} onClick={this.requestCloseIntelligenceDia} />,
+    ];
+
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(chessLight)}>
         <div className="App">
-          <Header requestOpenNewGame={this.requestOpenNewGame} />
+          <Header requestOpenNewGame={this.requestOpenNewGame} requestOpenIntelligenceDia={this.requestOpenIntelligenceDia}/>
           <WindowResizeListener onResize={windowSize => { resized(windowSize.windowWidth, windowSize.windowHeight) }} />
           <ChessBoard intelligenceLevel={this.state.intelligenceLevel} board={this.state.board}/>
 
           <Dialog title="New Game" actions={newGameActions} modal={false} open={this.state.newGameDiaOpen} onRequestClose={this.handleClose} >
             Start a new game?
+          </Dialog>
+          <Dialog title="AI Strength" actions={intelligenceActions} modal={false} open={this.state.intelligenceDiaOpen} onRequestClose={this.requestCloseIntelligenceDia} >
+            <div className="label">Depth {this.state.intelligenceLevel}</div>
+            <Slider step={1} value={this.state.intelligenceLevel} min={1} max={20} defaultValue={this.state.intelligenceLevel} onChange={this.onChangeIntelligenceLevel} /> 
           </Dialog>
 
           

@@ -84,8 +84,7 @@ class ChessBoard extends Component {
                 var move = moves[Math.floor(Math.random() * moves.length)];
 
                 sf.postMessage("position fen "+chess.fen())
-                sf.postMessage(`go depth {this.props.intelligenceLevel}`)
-
+                sf.postMessage(`go depth ${this.props.intelligenceLevel}`)
                 //chess.move(move);
 
                 //-----------------PUT AI HERE-------------------------------
