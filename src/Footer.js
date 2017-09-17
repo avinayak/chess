@@ -29,19 +29,19 @@ class Footer extends Component {
                             label=" "
                             icon={aVFastRewind}
                             style={{ color: '#333' }}
-                            onClick={() => { }}
+                            onClick={() => { this.props.gotoPreviousState() }}
                         />
                         <BottomNavigationItem
                             label=" "
                             icon={aVPlayArrow}
                             style={{ color: '#333' }}
-                            onClick={() => { }}
+                            onClick={() => { this.props.playForHuman() }}
                         />
                         <BottomNavigationItem
                             label=" "
                             icon={aVFastForward}
                             style={{ color: '#333' }}
-                            onClick={() => { }}
+                            onClick={() => {  this.props.gotoNextState() }}
                         />
                     </BottomNavigation>
                 </Paper>

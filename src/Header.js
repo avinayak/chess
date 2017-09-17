@@ -31,7 +31,7 @@ class Header extends Component {
                         <defs>
                             <path d="M0,15.089434 C0,16.3335929 5.13666091,24.1788679 14.9348958,24.1788679 C24.7325019,24.1788679 29.8697917,16.3335929 29.8697917,15.089434 C29.8697917,13.8456167 24.7325019,6 14.9348958,6 C5.13666091,6 0,13.8456167 0,15.089434 Z" id="outline"></path>
                             <mask id="mask">
-                                <rect width="100%" height="100%" fill="white"></rect>
+                                <rect width="100%" height="100%" fill="#ffffff"></rect>
                                 <use href="#outline" id="lid" fill="black" />
                             </mask>
                         </defs>

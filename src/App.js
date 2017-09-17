@@ -12,8 +12,9 @@ import { WindowResizeListener } from 'react-window-resize-listener'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Slider from 'material-ui/Slider';
+let startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 var Chess = require('./chess.js').Chess;
-
+let sf = null;
 
 const chessLight = getMuiTheme({
   palette: {
@@ -26,7 +27,7 @@ const chessLight = getMuiTheme({
   slider: {
     trackColor: '#aaa',
     selectionColor: '#333'
-  },  
+  },
 });
 
 function resized(w, h) {
@@ -48,12 +49,12 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    var chess = new Chess();
     this.state = {
-      board:chess.fen(),
+      boardIndex: 0,
       newGameDiaOpen: false,
       intelligenceDiaOpen: false,
-      intelligenceLevel:localStorage.getItem("intelligenceLevel")?localStorage.getItem("intelligenceLevel"):"10"
+      historicalStates: [startFen],
+      intelligenceLevel: localStorage.getItem("intelligenceLevel") ? localStorage.getItem("intelligenceLevel") : "10"
     };
 
   }
@@ -64,20 +65,44 @@ class App extends Component {
     this.setState({ newGameDiaOpen: true })
   }
 
+  handleChessMove = (fen) => {
+    console.log(`board state changed: ${fen}`);
+    this.state.historicalStates = this.state.historicalStates.slice(0, this.state.boardIndex + 1);
+    this.state.historicalStates.push(fen);
+    this.setState({ boardIndex: this.state.historicalStates.length - 1, historicalStates: this.state.historicalStates });
+  }
+
   requestCloseIntelligenceDia = () => {
     this.setState({ intelligenceDiaOpen: false });
   };
   requestOpenIntelligenceDia = () => {
     this.setState({ intelligenceDiaOpen: true })
   }
-  onChangeIntelligenceLevel = (event,value) => {
-    localStorage.setItem("intelligenceLevel",`${value}`)
-    this.setState({intelligenceLevel:`${value}`});
+  onChangeIntelligenceLevel = (event, value) => {
+    localStorage.setItem("intelligenceLevel", `${value}`)
+    this.setState({ intelligenceLevel: `${value}` });
+  }
+  handleGotoPreviousState = () => {
+    if (this.state.boardIndex > 0) {
+      this.setState({ boardIndex: this.state.boardIndex - 2 })
+    }
+  }
+  handlePlayForHuman = () => {
+    if (sf == null) {
+      sf = eval('stockfish');
+    }
+    sf.postMessage(`position fen ${this.state.historicalStates[this.state.boardIndex]}`)
+    sf.postMessage(`go depth ${this.props.intelligenceLevel}`)
+  }
+  handleGotoNextState = () => {
+    if (this.state.boardIndex < this.state.historicalStates.length - 2) {
+      this.setState({ boardIndex: this.state.boardIndex + 2 })
+    }
   }
   requestCreateNewGame = () => {
     var chess = new Chess();
-    this.setState({ newGameDiaOpen: true,board:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" })
-  } 
+    this.setState({ newGameDiaOpen: false, boardIndex: 0, historicalStates: [startFen] })
+  }
 
   render() {
     const newGameActions = [
@@ -93,20 +118,18 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme(chessLight)}>
         <div className="App">
-          <Header requestOpenNewGame={this.requestOpenNewGame} requestOpenIntelligenceDia={this.requestOpenIntelligenceDia}/>
+          <Header requestOpenNewGame={this.requestOpenNewGame} requestOpenIntelligenceDia={this.requestOpenIntelligenceDia} />
           <WindowResizeListener onResize={windowSize => { resized(windowSize.windowWidth, windowSize.windowHeight) }} />
-          <ChessBoard intelligenceLevel={this.state.intelligenceLevel} board={this.state.board}/>
+          <ChessBoard onMove={this.handleChessMove} intelligenceLevel={this.state.intelligenceLevel} board={this.state.historicalStates[this.state.boardIndex]} />
 
           <Dialog title="New Game" actions={newGameActions} modal={false} open={this.state.newGameDiaOpen} onRequestClose={this.handleClose} >
             Start a new game?
           </Dialog>
           <Dialog title="AI Strength" actions={intelligenceActions} modal={false} open={this.state.intelligenceDiaOpen} onRequestClose={this.requestCloseIntelligenceDia} >
             <div className="label">Depth {this.state.intelligenceLevel}</div>
-            <Slider step={1} value={this.state.intelligenceLevel} min={1} max={20} defaultValue={this.state.intelligenceLevel} onChange={this.onChangeIntelligenceLevel} /> 
+            <Slider step={1} value={this.state.intelligenceLevel} min={1} max={20} defaultValue={this.state.intelligenceLevel} onChange={this.onChangeIntelligenceLevel} />
           </Dialog>
-
-          
-          <Footer/>
+          <Footer playForHuman={this.handlePlayForHuman} gotoPreviousState={this.handleGotoPreviousState} gotoNextState={this.handleGotoNextState} />
         </div>
       </MuiThemeProvider>
     );
