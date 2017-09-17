@@ -56,7 +56,18 @@ class ChessBoard extends Component {
                     showThinkingBar(false);
                     chess = new Chess(this.props.board);
                     var move = message.split(" ")[1];
-                    chess.move(move, {sloppy: true});
+                    var moveResult = chess.move(move, {sloppy: true});
+                    
+                    if(moveResult.flags.indexOf('c')!=-1){
+                        document.getElementById(`cell-${move.substr(0,2)}`).classList.add('ai-bloody-footprint-in-sand');
+                        document.getElementById(`cell-${move.substr(2,4)}`).classList.add('ai-bloody-footprint-in-sand');
+                    }else{
+                        document.getElementById(`cell-${move.substr(0,2)}`).classList.add('ai-footprint-in-sand');
+                        document.getElementById(`cell-${move.substr(2,4)}`).classList.add('ai-footprint-in-sand');
+                    }
+
+
+
                     this.props.onMove(chess.fen())
                     if(!(chess.turn()===this.state.userColor)){
                         sf.postMessage("position fen "+chess.fen())
@@ -84,9 +95,11 @@ class ChessBoard extends Component {
                 
                     showThinkingBar(true);
                 //-----------------PUT AI HERE-------------------------------
-                //var moves = chess.moves();
-                //var move = moves[Math.floor(Math.random() * moves.length)];
-                sf.postMessage("position fen "+chess.fen())
+                // var moves = chess.moves();
+                // var move = moves[Math.floor(Math.random() * moves.length)];
+                // chess.move(move);
+                // showThinkingBar(false);
+                sf.postMessage(`position fen ${chess.fen()}`)
                 sf.postMessage(`go depth ${this.props.intelligenceLevel}`)
                 //-----------------PUT AI HERE-------------------------------
                 this.props.onMove(chess.fen())

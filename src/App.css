@@ -18,22 +18,22 @@
   width: 780px !important;
 }
 
-.label{
+.label {
   font-size: 11px;
 }
 
-.footer{
+.footer {
   text-align: center;
-position: fixed;
-    bottom: 0px;
-    width: 100%;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }
 
-.timer{
-    /* margin: 60px 0px; */
-    font-family: monospace;
-    /* padding: 0px 50px; */
-    font-size: 19px;
+.timer {
+  /* margin: 60px 0px; */
+  font-family: monospace;
+  /* padding: 0px 50px; */
+  font-size: 19px;
 }
 
 .chess-board {
@@ -76,13 +76,10 @@ position: fixed;
   font-family: 'ultraminimal'
 }
 
-
-
-
-
 #lid {
   animation: blink 5.4s infinite;
 }
+
 #eye {
   animation: squeeze 5.4s infinite;
 }
@@ -99,6 +96,7 @@ position: fixed;
     animation-timing-function: ease-out;
   }
 }
+
 @keyframes squeeze {
   90% {
     transform: none;
@@ -112,10 +110,56 @@ position: fixed;
   }
 }
 
-
 #thinking-bar {
   height: 1px;
   opacity: 0;
   transition: opacity 0.3s;
   -webkit-transition: opacity 0.3s;
+}
+
+
+.ai-footprint-in-sand {
+  background: white;
+  -webkit-animation: normal-move 1s;  /* Safari 4.0 - 8.0 */
+  -webkit-animation-iteration-count: 1; /* Safari 4.0 - 8.0 */
+  animation: normal-move 1s;
+  animation-iteration-count: 1;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes normal-move {
+  0% {background: white;}
+  10% {background: #C7C7C7;}
+  100% {background: white;}
+}
+
+@keyframes normal-move {
+  0% {background: white;}
+  10% {background: #C7C7C7;}
+  100% {background: white;}
+}
+
+.ai-bloody-footprint-in-sand {
+  background: white;
+  -webkit-animation: bloody-move 1.5s;  /* Safari 4.0 - 8.0 */
+  animation: bloody-move 1.5s;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes bloody-move {
+  0% {background: white;}
+  10% {background: #F83A3A;}
+  100% {background: white;}
+}
+
+@keyframes bloody-move {
+  0% {background: white;}
+  10% {background: #F83A3A;}
+  100% {background: white;}
+}
+
+.graveyard{
+  font-family: "chessline";
+  font-size: 36px;
+  text-align: center;
 }

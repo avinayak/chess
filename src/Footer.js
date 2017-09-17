@@ -22,7 +22,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-                {/* <div className="timer">08:34 <span>&#9632;</span>  -  <span style={{color:"#999"}}>&#9632;</span> 04:10</div> */}
+               <div className="graveyard"> {this.props.fallenOnes} </div>
                 <Paper zDepth={10}>
                     <BottomNavigation zDepth={0}>
                         <BottomNavigationItem

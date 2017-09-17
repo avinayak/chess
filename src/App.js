@@ -65,11 +65,16 @@ class App extends Component {
     this.setState({ newGameDiaOpen: true })
   }
 
+  getFallenOnes = () => {
+    return ""
+  }
+
   handleChessMove = (fen) => {
     console.log(`board state changed: ${fen}`);
     this.state.historicalStates = this.state.historicalStates.slice(0, this.state.boardIndex + 1);
     this.state.historicalStates.push(fen);
     this.setState({ boardIndex: this.state.historicalStates.length - 1, historicalStates: this.state.historicalStates });
+    this.getFallenOnes();
   }
 
   requestCloseIntelligenceDia = () => {
@@ -121,7 +126,6 @@ class App extends Component {
           <Header requestOpenNewGame={this.requestOpenNewGame} requestOpenIntelligenceDia={this.requestOpenIntelligenceDia} />
           <WindowResizeListener onResize={windowSize => { resized(windowSize.windowWidth, windowSize.windowHeight) }} />
           <ChessBoard onMove={this.handleChessMove} intelligenceLevel={this.state.intelligenceLevel} board={this.state.historicalStates[this.state.boardIndex]} />
-
           <Dialog title="New Game" actions={newGameActions} modal={false} open={this.state.newGameDiaOpen} onRequestClose={this.handleClose} >
             Start a new game?
           </Dialog>
@@ -129,7 +133,7 @@ class App extends Component {
             <div className="label">Depth {this.state.intelligenceLevel}</div>
             <Slider step={1} value={this.state.intelligenceLevel} min={1} max={20} defaultValue={this.state.intelligenceLevel} onChange={this.onChangeIntelligenceLevel} />
           </Dialog>
-          <Footer playForHuman={this.handlePlayForHuman} gotoPreviousState={this.handleGotoPreviousState} gotoNextState={this.handleGotoNextState} />
+          <Footer fallenOnes={this.getFallenOnes()} playForHuman={this.handlePlayForHuman} gotoPreviousState={this.handleGotoPreviousState} gotoNextState={this.handleGotoNextState} />
         </div>
       </MuiThemeProvider>
     );
