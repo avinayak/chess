@@ -13,7 +13,7 @@ class Dialogs extends React.Component {
   };
 
   render() {
-    if(!this.state.actionPressed)
+
       this.state.newGameDialogOpen = this.props.newGameDialogOpen;
     const actions = [
       <FlatButton

@@ -1,3 +1,5 @@
+/* eslint import/no-webpack-loader-syntax: off */
+
 import './App.css';
 import ChessBoard from './ChessBoard.js';
 import React, { Component } from 'react';
@@ -9,16 +11,20 @@ import Footer from './Footer.js';
 import { WindowResizeListener } from 'react-window-resize-listener'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-
+var Chess = require('./chess.js').Chess;
 
 const chessLight = getMuiTheme({
   palette: {
     primary1Color: 'white',
-    textColor: '#333'
+    textColor: '#333',
   },
   appBar: {
     textColor: '#333',
   },
+  slider: {
+    trackColor: '#aaa',
+    selectionColor: '#333'
+  },  
 });
 
 function resized(w, h) {
@@ -40,22 +46,30 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    var chess = new Chess();
     this.state = {
-      open: false,
+      board:chess.fen(),
+      newGameDiaOpen: false,
+      intelligenceLevel:localStorage.getItem("intelligenceLevel")?localStorage.getItem("intelligenceLevel"):"10"
     };
 
   }
   requestCloseNewGame = () => {
-    this.setState({ open: false });
+    this.setState({ newGameDiaOpen: false });
   };
   requestOpenNewGame = () => {
-    this.setState({ open: true })
+    this.setState({ newGameDiaOpen: true })
+  }
+  requestCreateNewGame = () => {
+    var chess = new Chess();
+
+    this.setState({ newGameDiaOpen: true,board:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" })
   }
 
   render() {
-    const actions = [
+    const newGameActions = [
       <FlatButton label="Cancel" primary={true} style={{ color: '#333' }} onClick={this.requestCloseNewGame} />,
-      <FlatButton label="OK" primary={true} style={{ color: '#333' }} onClick={this.requestCloseNewGame} />,
+      <FlatButton label="OK" primary={true} style={{ color: '#333' }} onClick={this.requestCreateNewGame} />,
     ];
 
     return (
@@ -63,10 +77,13 @@ class App extends Component {
         <div className="App">
           <Header requestOpenNewGame={this.requestOpenNewGame} />
           <WindowResizeListener onResize={windowSize => { resized(windowSize.windowWidth, windowSize.windowHeight) }} />
-          <ChessBoard />
-          <Dialog title="New Game" actions={actions} modal={false} open={this.state.open} onRequestClose={this.handleClose} >
+          <ChessBoard intelligenceLevel={this.state.intelligenceLevel} board={this.state.board}/>
+
+          <Dialog title="New Game" actions={newGameActions} modal={false} open={this.state.newGameDiaOpen} onRequestClose={this.handleClose} >
             Start a new game?
           </Dialog>
+
+          
           <Footer/>
         </div>
       </MuiThemeProvider>

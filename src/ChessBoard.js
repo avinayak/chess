@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 var Chess = require('./chess.js').Chess;
-//let stockfish = require('./stockfish.js');
+let sf = null;
+
+function showThinkingBar(value){
+    document.getElementById('thinking-bar').style.height="2px"
+    document.getElementById('thinking-bar').style.opacity=value?"1":"0";
+}
 
 class ChessBoard extends Component {
 
     constructor(props) {
         super(props);
         var chess = new Chess();
-        this.state = { board: chess.fen(), selectMode: false, userColor: 'w' };
+        this.state = { board: this.props.board, selectMode: false, userColor: 'w' };
         if (this.state.userColor === 'b') {
             // make AI do the first move
             var moves = chess.moves();
@@ -17,7 +22,6 @@ class ChessBoard extends Component {
             
         }
         
-        
     }
 
     refreshBoard(board) {
@@ -26,8 +30,6 @@ class ChessBoard extends Component {
                 if (board[row][col] != null)
                     if (board[row][col].color === this.state.userColor) {
                         var cellId = "cell-" + (String.fromCharCode(97 + col)) + (-1 * (row - 8));
-                        if (document.getElementById(cellId) == null)
-                            debugger;
                         document.getElementById(cellId).classList.add("selectable");
                     }
             }
@@ -45,7 +47,24 @@ class ChessBoard extends Component {
 
     nextState(cellCode) {
         var chess = new Chess(this.state.board);
-
+        if(sf==null){
+            sf = eval('stockfish');
+            sf.onmessage = (event) => { 
+                let message = event.data ? event.data : event;
+                console.log(message);
+                if(message.startsWith("bestmove")){
+                    showThinkingBar(false);
+                    chess = new Chess(this.state.board);
+                    var move = message.split(" ")[1];
+                    chess.move(move, {sloppy: true});
+                    this.setState({ board: chess.fen() });
+                    
+                }
+                
+            }
+        }
+        
+        
         if (this.state.selectMode) {
             //this.setState({ to:cellCode });
             this.state.to = cellCode;
@@ -59,11 +78,18 @@ class ChessBoard extends Component {
                     chess.move({ from: this.state.from, to: cellCode, promotion: 'q' });
                 else
                     chess.move({ from: this.state.from, to: cellCode }); // if not a promotion, be normal
+                    showThinkingBar(true);
                 //-----------------PUT AI HERE-------------------------------
                 var moves = chess.moves();
                 var move = moves[Math.floor(Math.random() * moves.length)];
+
+                sf.postMessage("position fen "+chess.fen())
+                sf.postMessage(`go depth {this.props.intelligenceLevel}`)
+
+                //chess.move(move);
+
                 //-----------------PUT AI HERE-------------------------------
-                var k = chess.move(move);
+                
                 if (chess.game_over())
                     alert("Game Over!");
 
