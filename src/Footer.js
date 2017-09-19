@@ -22,7 +22,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-               <div className="graveyard"> {this.props.fallenOnes} </div>
+               <p id="graves" className="graveyard"> {this.props.fallenOnes} </p>
                 <Paper zDepth={10}>
                     <BottomNavigation zDepth={0}>
                         <BottomNavigationItem

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {fenToBoard} from './Fen.js';
 var Chess = require('./chess.js').Chess;
 let sf = null;
 
@@ -65,9 +66,6 @@ class ChessBoard extends Component {
                         document.getElementById(`cell-${move.substr(0,2)}`).classList.add('ai-footprint-in-sand');
                         document.getElementById(`cell-${move.substr(2,4)}`).classList.add('ai-footprint-in-sand');
                     }
-
-
-
                     this.props.onMove(chess.fen())
                     if(!(chess.turn()===this.state.userColor)){
                         sf.postMessage("position fen "+chess.fen())
@@ -127,45 +125,11 @@ class ChessBoard extends Component {
         this.refreshBoard(chess.board());
     }
 
-    fenToBoard(fen) {
-        let tempRow = '';
-        let map = { 'b': 'N', 'n': 'J', 'q': 'W', 'p': 'O', 'k': 'L', 'r': 'T', 'B': 'B', 'N': 'H', 'Q': 'Q', 'P': 'P', 'K': 'K', 'R': 'R', '.': ' ' };
-
-        let fenBoard = fen.split(' ')[0].split("/").join("");
-        for (let cell = 0; cell < fenBoard.length; cell++) {
-            if (!parseInt(fenBoard[cell]))
-                tempRow += fenBoard[cell];
-            else {
-                for (let i = 0; i < parseInt(fenBoard[cell]); i++) {
-                    tempRow += "."
-                }
-            }
-        }
-        let finalRow = '';
-        let rowToggle = false;
-        for (let i = 0; i < tempRow.length; i++) {
-
-            if (i % 8 == 0)
-                rowToggle = !rowToggle;
-
-            if (tempRow[i] === ".") {
-                if (i % 2 == rowToggle ? 1 : 0)
-                    finalRow += "+";
-                else
-                    finalRow += "Z";
-            } else {
-                let _cell = map[tempRow[i]];
-                if (i % 2 == rowToggle ? 0 : 1)
-                    _cell = _cell.toLowerCase();
-                finalRow += _cell;
-            }
-        }
-        return finalRow;
-    }
+    
 
 
     render() {
-        let renderableBoard = this.fenToBoard(this.props.board);
+        let renderableBoard = fenToBoard(this.props.board);
         var row = [];
 
         for (var i = 0; i < renderableBoard.length; i++) {

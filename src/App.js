@@ -10,6 +10,7 @@ import Header from './Header.js';
 import Footer from './Footer.js';
 import { WindowResizeListener } from 'react-window-resize-listener'
 import Dialog from 'material-ui/Dialog';
+import {fenToBoard} from './Fen.js';
 import FlatButton from 'material-ui/FlatButton';
 import Slider from 'material-ui/Slider';
 let startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -42,6 +43,9 @@ function resized(w, h) {
       var element = elements[i];
       element.style.fontSize = ((1.0 / 8.0) * w - (5.0 / 8.0)) + "px";
     }
+    element = document.getElementById('graves');
+    element.style.fontSize = "20px";
+    element.style.width = ((1.0 / 8.0) * w - (5.0 / 8.0))*32 + "px";
   }
 }
 
@@ -66,7 +70,19 @@ class App extends Component {
   }
 
   getFallenOnes = () => {
-    return ""
+    var orig = "tJnWlNjTOoOoOoOoZ+Z+Z+Z++Z+Z+Z+ZZ+Z+Z+Z++Z+Z+Z+ZpPpPpPpPRhBqKbHr".toLowerCase();
+    var curr = fenToBoard(this.state.historicalStates[this.state.boardIndex]).toLowerCase();
+    orig = orig.replace(/z/g,"");
+    orig = orig.replace(/\+/g,"");
+    curr = curr.replace(/z/g,"");
+    curr = curr.replace(/\+/g,"");
+    orig = orig.split("");
+    curr = curr.split("");
+    for(let i = 0;i<curr.length;i++){
+      if(orig.includes(curr[i]))
+        orig.splice(orig.indexOf(curr[i]),1)
+    }
+    return orig.join("");
   }
 
   handleChessMove = (fen) => {

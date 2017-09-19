@@ -77,11 +77,11 @@
 }
 
 #lid {
-  animation: blink 5.4s infinite;
+  animation: blink 30.0s infinite;
 }
 
 #eye {
-  animation: squeeze 5.4s infinite;
+  animation: squeeze 30.0s infinite;
 }
 
 @keyframes blink {
@@ -117,49 +117,84 @@
   -webkit-transition: opacity 0.3s;
 }
 
-
 .ai-footprint-in-sand {
   background: white;
-  -webkit-animation: normal-move 1s;  /* Safari 4.0 - 8.0 */
-  -webkit-animation-iteration-count: 1; /* Safari 4.0 - 8.0 */
+  -webkit-animation: normal-move 1s;
+  /* Safari 4.0 - 8.0 */
+  -webkit-animation-iteration-count: 1;
+  /* Safari 4.0 - 8.0 */
   animation: normal-move 1s;
   animation-iteration-count: 1;
 }
 
+
 /* Safari 4.0 - 8.0 */
+
 @-webkit-keyframes normal-move {
-  0% {background: white;}
-  10% {background: #C7C7C7;}
-  100% {background: white;}
+  0% {
+    background: white;
+  }
+  10% {
+    background: #C7C7C7;
+  }
+  100% {
+    background: white;
+  }
 }
 
 @keyframes normal-move {
-  0% {background: white;}
-  10% {background: #C7C7C7;}
-  100% {background: white;}
+  0% {
+    background: white;
+  }
+  10% {
+    background: #C7C7C7;
+  }
+  100% {
+    background: white;
+  }
 }
 
 .ai-bloody-footprint-in-sand {
   background: white;
-  -webkit-animation: bloody-move 1.5s;  /* Safari 4.0 - 8.0 */
+  -webkit-animation: bloody-move 1.5s;
+  /* Safari 4.0 - 8.0 */
   animation: bloody-move 1.5s;
 }
 
+
 /* Safari 4.0 - 8.0 */
+
 @-webkit-keyframes bloody-move {
-  0% {background: white;}
-  10% {background: #F83A3A;}
-  100% {background: white;}
+  0% {
+    background: white;
+  }
+  10% {
+    background: #F83A3A;
+  }
+  100% {
+    background: white;
+  }
 }
 
 @keyframes bloody-move {
-  0% {background: white;}
-  10% {background: #F83A3A;}
-  100% {background: white;}
+  0% {
+    background: white;
+  }
+  10% {
+    background: #F83A3A;
+  }
+  100% {
+    background: white;
+  }
 }
 
-.graveyard{
+.graveyard {
   font-family: "chessline";
-  font-size: 36px;
   text-align: center;
+  word-break: break-all;
+}
+
+#graves {
+  width: 154px;
+  font-size: 14px;
 }
