@@ -31,7 +31,6 @@ let fenToBoard = (fen) => {
             finalRow += _cell;
         }
     }
-    console.log(finalRow);
     return finalRow;
 }
 

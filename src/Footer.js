@@ -21,30 +21,32 @@ class Footer extends Component {
 
     render() {
         return (
-            <div className="footer">
-               <p id="graves" className="graveyard"> {this.props.fallenOnes} </p>
-                <Paper zDepth={10}>
-                    <BottomNavigation zDepth={0}>
-                        <BottomNavigationItem
-                            label=" "
-                            icon={aVFastRewind}
-                            style={{ color: '#333' }}
-                            onClick={() => { this.props.gotoPreviousState() }}
-                        />
-                        <BottomNavigationItem
-                            label=" "
-                            icon={aVPlayArrow}
-                            style={{ color: '#333' }}
-                            onClick={() => { this.props.playForHuman() }}
-                        />
-                        <BottomNavigationItem
-                            label=" "
-                            icon={aVFastForward}
-                            style={{ color: '#333' }}
-                            onClick={() => {  this.props.gotoNextState() }}
-                        />
-                    </BottomNavigation>
-                </Paper>
+            <div>
+                <p className="graveyard"><div id="graves">{this.props.fallenOnes}</div> </p>
+                <div className="footer">
+                    <Paper zDepth={10}>
+                        <BottomNavigation zDepth={0}>
+                            <BottomNavigationItem
+                                label=" "
+                                icon={aVFastRewind}
+                                style={{ color: '#333' }}
+                                onClick={() => { this.props.gotoPreviousState() }}
+                            />
+                            <BottomNavigationItem
+                                label=" "
+                                icon={aVPlayArrow}
+                                style={{ color: '#333' }}
+                                onClick={() => { this.props.playForHuman() }}
+                            />
+                            <BottomNavigationItem
+                                label=" "
+                                icon={aVFastForward}
+                                style={{ color: '#333' }}
+                                onClick={() => { this.props.gotoNextState() }}
+                            />
+                        </BottomNavigation>
+                    </Paper>
+                </div>
             </div>
         )
     }

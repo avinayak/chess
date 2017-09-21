@@ -30,20 +30,15 @@
 }
 
 .timer {
-  /* margin: 60px 0px; */
   font-family: monospace;
-  /* padding: 0px 50px; */
   font-size: 19px;
 }
 
 .chess-board {
-  /* border:  7px solid #333; */
-  /* opacity: 0.1; */
   cursor: default;
-  /* padding: 6px 10px; */
   font-family: "chessline";
   text-align: center;
-  font-size: 95px;
+  font-size: 86.5px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -52,10 +47,8 @@
   user-select: none;
 }
 
-.cell {}
-
 .seperator {
-  margin-top: -110px;
+  margin-top: -100px;
 }
 
 .selectable:hover {
@@ -77,11 +70,11 @@
 }
 
 #lid {
-  animation: blink 30.0s infinite;
+  animation: blink 7.0s infinite;
 }
 
 #eye {
-  animation: squeeze 30.0s infinite;
+  animation: squeeze 7.0s infinite;
 }
 
 @keyframes blink {
@@ -120,15 +113,10 @@
 .ai-footprint-in-sand {
   background: white;
   -webkit-animation: normal-move 1s;
-  /* Safari 4.0 - 8.0 */
   -webkit-animation-iteration-count: 1;
-  /* Safari 4.0 - 8.0 */
   animation: normal-move 1s;
   animation-iteration-count: 1;
 }
-
-
-/* Safari 4.0 - 8.0 */
 
 @-webkit-keyframes normal-move {
   0% {
@@ -157,12 +145,9 @@
 .ai-bloody-footprint-in-sand {
   background: white;
   -webkit-animation: bloody-move 1.5s;
-  /* Safari 4.0 - 8.0 */
   animation: bloody-move 1.5s;
 }
 
-
-/* Safari 4.0 - 8.0 */
 
 @-webkit-keyframes bloody-move {
   0% {
@@ -192,9 +177,10 @@
   font-family: "chessline";
   text-align: center;
   word-break: break-all;
+  width: 100%;
+  font-size: 28px;
 }
 
-#graves {
-  width: 154px;
-  font-size: 14px;
+#graves{
+  margin-top: 20px;
 }

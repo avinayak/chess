@@ -1,5 +1,3 @@
-/* eslint import/no-webpack-loader-syntax: off */
-
 import './App.css';
 import ChessBoard from './ChessBoard.js';
 import React, { Component } from 'react';
@@ -32,7 +30,7 @@ const chessLight = getMuiTheme({
 });
 
 function resized(w, h) {
-  if (w < 768) {
+  if (w < 700) {
     var elements = document.getElementsByClassName('seperator');
     for (var i = 0; i < elements.length; i++) {
       var element = elements[i];
@@ -44,8 +42,7 @@ function resized(w, h) {
       element.style.fontSize = ((1.0 / 8.0) * w - (5.0 / 8.0)) + "px";
     }
     element = document.getElementById('graves');
-    element.style.fontSize = "20px";
-    element.style.width = ((1.0 / 8.0) * w - (5.0 / 8.0))*32 + "px";
+    element.style.marginTop = ((-137.0/300.0) * w + 337.0)+"px";
   }
 }
 
@@ -86,7 +83,6 @@ class App extends Component {
   }
 
   handleChessMove = (fen) => {
-    console.log(`board state changed: ${fen}`);
     this.state.historicalStates = this.state.historicalStates.slice(0, this.state.boardIndex + 1);
     this.state.historicalStates.push(fen);
     this.setState({ boardIndex: this.state.historicalStates.length - 1, historicalStates: this.state.historicalStates });
@@ -114,6 +110,7 @@ class App extends Component {
     }
     sf.postMessage(`position fen ${this.state.historicalStates[this.state.boardIndex]}`)
     sf.postMessage(`go depth ${this.props.intelligenceLevel}`)
+    this.state.historicalStates = this.state.historicalStates.slice(0, this.state.boardIndex + 1);
   }
   handleGotoNextState = () => {
     if (this.state.boardIndex < this.state.historicalStates.length - 2) {
@@ -145,7 +142,7 @@ class App extends Component {
           <Dialog title="New Game" actions={newGameActions} modal={false} open={this.state.newGameDiaOpen} onRequestClose={this.handleClose} >
             Start a new game?
           </Dialog>
-          <Dialog title="AI Strength" actions={intelligenceActions} modal={false} open={this.state.intelligenceDiaOpen} onRequestClose={this.requestCloseIntelligenceDia} >
+          <Dialog title="Artificial Intelligence Settings" actions={intelligenceActions} modal={false} open={this.state.intelligenceDiaOpen} onRequestClose={this.requestCloseIntelligenceDia} >
             <div className="label">Depth {this.state.intelligenceLevel}</div>
             <Slider step={1} value={this.state.intelligenceLevel} min={1} max={20} defaultValue={this.state.intelligenceLevel} onChange={this.onChangeIntelligenceLevel} />
           </Dialog>
